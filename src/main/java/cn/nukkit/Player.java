@@ -4626,6 +4626,10 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
                 return true;
             } else if (entity instanceof EntityThrownTrident && ((EntityThrownTrident) entity).hadCollision) {
                 ItemTrident item = new ItemTrident();
+
+                if (entity.namedTag.contains("Name"))
+                    item.setCustomName(entity.namedTag.getString("Name"));
+
                 if (this.isSurvival() && !this.inventory.canAddItem(item)) {
                     return false;
                 }
