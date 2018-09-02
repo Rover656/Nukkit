@@ -4633,6 +4633,10 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
                     return false;
                 }
 
+                if (entity.namedTag.contains("CustomName")) {
+                    item.setCustomName(entity.namedTag.getString("CustomName"));
+                }
+
                 TakeItemEntityPacket pk = new TakeItemEntityPacket();
                 pk.entityId = this.getId();
                 pk.target = entity.getId();

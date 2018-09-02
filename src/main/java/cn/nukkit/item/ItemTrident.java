@@ -59,6 +59,10 @@ public class ItemTrident extends ItemTool {
                         .add(new FloatTag("", (player.yaw > 180 ? 360 : 0) - (float) player.yaw))
                         .add(new FloatTag("", (float) -player.pitch)));
 
+        if (this.hasCustomName()) {
+            nbt.putString("CustomName", this.getCustomName());
+        }
+
         int diff = (Server.getInstance().getTick() - player.getStartActionTick());
         double p = (double) diff / 20;
 
@@ -84,9 +88,10 @@ public class ItemTrident extends ItemTool {
                     player.getLevel().addLevelSoundEvent(new Vector3(player.x, player.y, player.z), 183, 1, -1);
                     if (!player.isCreative()) {
                         // idk why but trident returns to inventory without this
+                        Item self = this;
                         new NukkitRunnable() {
                             public void run() {
-                                player.getInventory().removeItem(Item.get(Item.TRIDENT, meta, 1));
+                                player.getInventory().removeItem(self);
                             }
                         }.runTaskLater(null, 1);
                     }

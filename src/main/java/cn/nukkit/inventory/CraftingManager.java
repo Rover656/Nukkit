@@ -2,7 +2,9 @@ package cn.nukkit.inventory;
 
 import cn.nukkit.Server;
 import cn.nukkit.item.Item;
+import cn.nukkit.item.ItemBookEnchanted;
 import cn.nukkit.item.ItemPotion;
+import cn.nukkit.item.enchantment.Enchantment;
 import cn.nukkit.network.protocol.BatchPacket;
 import cn.nukkit.network.protocol.CraftingDataPacket;
 import cn.nukkit.utils.BinaryStream;
@@ -113,6 +115,15 @@ public class CraftingManager {
                 MainLogger.getLogger().error("Exception during registering recipe", e);
             }
         }
+
+        //Register the mending book for glitchcraft
+        Item mendingItem = new ItemBookEnchanted();
+        mendingItem.addEnchantment(Enchantment.getEnchantment(Enchantment.ID_MENDING));
+        ArrayList<Item> ingredients = new ArrayList<>();
+        ingredients.add(Item.get(Item.DIAMOND));
+        ingredients.add(Item.get(Item.BOOK));
+        this.registerRecipe(new ShapelessRecipe(mendingItem, ingredients));
+        //End mending book
 
         this.registerBrewing();
         this.rebuildPacket();
