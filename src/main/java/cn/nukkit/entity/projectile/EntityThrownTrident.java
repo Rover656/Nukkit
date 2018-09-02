@@ -48,7 +48,6 @@ public class EntityThrownTrident extends EntityProjectile {
 
     protected float gravity = 0.04f;
     protected float drag = 0.01f;
-    //protected boolean collectable;
 
     public EntityThrownTrident(FullChunk chunk, CompoundTag nbt) {
         this(chunk, nbt, null);
@@ -60,10 +59,6 @@ public class EntityThrownTrident extends EntityProjectile {
 
     public EntityThrownTrident(FullChunk chunk, CompoundTag nbt, Entity shootingEntity, boolean critical) {
         super(chunk, nbt, shootingEntity);
-        this.setCritical(critical);
-        deleteOnCollide = false;
-
-        //collectable = nbt.getBoolean("collectable");
     }
 
     @Override
@@ -71,6 +66,7 @@ public class EntityThrownTrident extends EntityProjectile {
         super.initEntity();
 
         this.damage = namedTag.contains("damage") ? namedTag.getDouble("damage") : 8;
+        closeOnCollide = false;
     }
 
     public void setCritical() {

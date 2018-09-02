@@ -32,7 +32,7 @@ public abstract class EntityProjectile extends Entity {
 
     public boolean hadCollision = false;
 
-    public boolean deleteOnCollide = true;
+    public boolean closeOnCollide = true;
 
     protected double damage = 0;
 
@@ -76,7 +76,7 @@ public abstract class EntityProjectile extends Entity {
                 entity.setOnFire(event.getDuration());
             }
         }
-        if (deleteOnCollide) {
+        if (closeOnCollide) {
             this.close();
         }
     }

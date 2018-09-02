@@ -125,8 +125,7 @@ public class BlockAnvil extends BlockFallable {
             } else if (damage >= 8 && damage <= 11) { //Very Damaged Anvil
                 drop.setDamage(drop.getDamage() & 0x08);
                 return new Item[]{drop};
-            }
-            else { //Normal Anvil
+            } else { //Normal Anvil
                 return new Item[]{drop};
             }
         }
