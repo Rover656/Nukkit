@@ -4,8 +4,7 @@ import cn.nukkit.Player;
 import cn.nukkit.level.Position;
 
 /**
- * author: MagicDroidX
- * Nukkit Project
+ * author: Rover656
  */
 public class BeaconInventory extends ContainerInventory {
 
@@ -27,19 +26,9 @@ public class BeaconInventory extends ContainerInventory {
     @Override
     public void onClose(Player who) {
         super.onClose(who);
-        who.craftingType = Player.CRAFTING_SMALL;
-        who.resetCraftingGridType();
 
         //Drop item in slot
         this.getHolder().getLevel().dropItem(this.getHolder().add(0.5, 0.5, 0.5), this.getItem(0));
         this.clear(0);
     }
-
-    @Override
-    public void onOpen(Player who) {
-        super.onOpen(who);
-        who.craftingType = Player.CRAFTING_ANVIL;
-    }
-
-
 }
