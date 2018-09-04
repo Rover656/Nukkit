@@ -2100,6 +2100,9 @@ public class Level implements ChunkManager, Metadatable {
             }
         }
 
+        //Attempt for fix to shulker colors
+        block.setDamage(item.getDamage());
+
         if (!hand.place(item, block, target, face, fx, fy, fz, player)) {
             return null;
         }

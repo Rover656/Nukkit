@@ -110,11 +110,6 @@ public class BlockShulkerBox extends BlockTransparentMeta {
         BlockEntityShulkerBox box = null;
 
         for (int side = 2; side <= 5; ++side) {
-            if ((this.getDamage() == 4 || this.getDamage() == 5) && (side == 4 || side == 5)) {
-                continue;
-            } else if ((this.getDamage() == 3 || this.getDamage() == 2) && (side == 2 || side == 3)) {
-                continue;
-            }
             Block c = this.getSide(BlockFace.fromIndex(side));
             if (c instanceof BlockShulkerBox && c.getDamage() == this.getDamage()) {
                 BlockEntity blockEntity = this.getLevel().getBlockEntity(c);
