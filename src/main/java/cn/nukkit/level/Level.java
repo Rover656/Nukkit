@@ -694,6 +694,7 @@ public class Level implements ChunkManager, Metadatable {
         this.timings.doTick.startTiming();
 
         updateBlockLight(lightQueue);
+
         this.checkTime();
         
         if(stopTime) {
@@ -1490,7 +1491,14 @@ public class Level implements ChunkManager, Metadatable {
     }
 
     public void updateBlockSkyLight(int x, int y, int z) {
-        // todo
+        for (int testy = x + 1; testy <= 255; testy++) {
+            int testBlockId = getBlockIdAt(x, testy, z);
+            if (!Block.transparent[testBlockId]) {
+                setBlockSkyLightAt(x, y, z, 0);
+                return;
+            }
+        }
+        setBlockSkyLightAt(x, y, z, (int)this.skyLightSubtracted);
     }
 
     public void updateBlockLight(Map<Long, Map<Character, Object>> map) {
@@ -1500,6 +1508,7 @@ public class Level implements ChunkManager, Metadatable {
         }
         Queue<Long> lightPropagationQueue = new ConcurrentLinkedQueue<>();
         Queue<Object[]> lightRemovalQueue = new ConcurrentLinkedQueue<>();
+        Queue<Long> skyLightQueue = new ConcurrentLinkedQueue<>();
         Long2ObjectOpenHashMap<Object> visited = new Long2ObjectOpenHashMap<>();
         Long2ObjectOpenHashMap<Object> removalVisited = new Long2ObjectOpenHashMap<>();
 
@@ -1534,6 +1543,7 @@ public class Level implements ChunkManager, Metadatable {
                             visited.put(Hash.hashBlock(x, y, z), changeBlocksPresent);
                             lightPropagationQueue.add(Hash.hashBlock(x, y, z));
                         }
+                        skyLightQueue.add(Hash.hashBlock(x, y, z));
                     }
                 }
             }
@@ -1580,6 +1590,22 @@ public class Level implements ChunkManager, Metadatable {
                 this.computeSpreadBlockLight(x, y, z - 1, lightLevel, lightPropagationQueue, visited);
                 this.computeSpreadBlockLight(x, y, z + 1, lightLevel, lightPropagationQueue, visited);
             }
+        }
+
+        while (!skyLightQueue.isEmpty()) {
+            long node = skyLightQueue.poll();
+
+            int x = Hash.hashBlockX(node);
+            int y = Hash.hashBlockY(node);
+            int z = Hash.hashBlockZ(node);
+
+            updateBlockSkyLight(x, y, z);
+            updateBlockSkyLight(x - 1, y, z);
+            updateBlockSkyLight(x + 1, y, z);
+            updateBlockSkyLight(x, y - 1, z);
+            updateBlockSkyLight(x, y + 1, z);
+            updateBlockSkyLight(x, y, z - 1);
+            updateBlockSkyLight(x, y, z + 1);
         }
     }
 
