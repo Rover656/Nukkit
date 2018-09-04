@@ -1498,7 +1498,7 @@ public class Level implements ChunkManager, Metadatable {
                 return;
             }
         }
-        setBlockSkyLightAt(x, y, z, (int)this.skyLightSubtracted);
+        setBlockSkyLightAt(x, y, z, 0);//(int)this.skyLightSubtracted);
     }
 
     public void updateBlockLight(Map<Long, Map<Character, Object>> map) {
